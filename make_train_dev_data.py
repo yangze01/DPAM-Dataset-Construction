@@ -33,6 +33,28 @@ class Vocab(object):
         """Returns the id(integer) of a word (string). Returns [UNK] id if word is not in vocab"""
         return self._word_to_id[word]
 
+def one_hot_Vocab(keys):
+    one_dict = dict()
+    _count = 0
+    for key in keys:
+        if key in one_dict:
+            raise Exception("Duplicated word in vocabulary file: %s" %key)
+        if key == 0:
+            continue
+        one_dict[key] = _count
+        _count += 1
+    return one_dict
+
+def read_from_json(path_file):
+    with open(path_file, 'rb') as jd:
+        data = json.loads(jd.read())
+    return data
+
+def writejsonfile
+
+def save_data2rawdata(data_path, save_path):
+    data = read_from_json(data_path)
+
 
 if __name__ == "__main__":
     criminal_list = ['交通肇事罪',  # 危险驾驶罪（危险 驾驶罪）
@@ -61,7 +83,37 @@ if __name__ == "__main__":
         print(sorted_vocab)
         vocab_len = len(sorted_vocab)
         print("the len of sorted vocab is : {}".format(vocab_len))
-        print("the len of max vocab is : {}".format(vocab_len/10*10))
+        max_len = vocab_len/10*10
+        for topn in range(10,max_len+1,10):
+            keys = [tuple[0] for tuple in sorted_vocab[:topn]]
+            print("the keys set len is : {}".format(len(keys)))
+            print(keys)
+            one_hot_vocab = one_hot_Vocab(keys)
+            print("the one hot dict is: ")
+            print(one_hot_vocab)
+            with open(BasePath + "/data/" + criminal +
+              "_raw/one_hot_vocab_" + criminal + str(topn) + ".txt", 'wb') as f:
+                f.write(json.dumps(one_hot_vocab))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
