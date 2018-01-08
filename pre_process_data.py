@@ -165,9 +165,9 @@ if __name__ == "__main__":
 
         if not os.path.exists(result_dir):
             os.makedirs(result_dir)
-            print("make criminal {} row dir".format(result_dir))
+            print("make criminal {} raw dir".format(result_dir))
         else:
-            print("criminal {} row dir exists".format(result_dir))
+            print("criminal {} raw dir exists".format(result_dir))
 
         # make_count(reason_list, result_dir + "/" + criminal + "_vocab.txt")
         # json_data = json.dumps(save_list, ensure_ascii=False)
