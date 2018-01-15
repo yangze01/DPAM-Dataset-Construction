@@ -127,57 +127,43 @@ if __name__ == "__main__":
     #         train_dev_y_file_path = BasePath + "/data/" + criminal + "_raw/"+ criminal +"_train_dev_data_y_topn" + str(topn) + ".txt"
     #         np.savetxt(train_dev_y_file_path, np.array(return_y, dtype = np.int32))
     ##################################################################
-    data_path = BasePath + "/data/" + "all_json_data.txt"
-    vocab_path = BasePath + "/data/" + "all_vocab.txt"
-    save_path = BasePath + "/data/" + "all_raw_split_json_data.txt"
-
-    # 将json_data保存为原始数据，即保存为案例对应的所有法条
-    data = save_data2rawdata(data_path, save_path)
-
-    vocab = Vocab(vocab_path)
-    print("the vocab is: ")
-    print(vocab._word_to_id)
-
-    sorted_vocab = sorted(vocab._word_to_id.items(), key = lambda e : e[1], reverse = True)
-    print("the sorted vocab is : ")
-    print(sorted_vocab)
-    vocab_len = len(sorted_vocab)
-    # print("the len of sorted vocabv is : {}".format(vocab_len))
-    max_len = vocab_len/10*10
-    return_x = [' '.join(sentence) for sentence in data['content']]
-    for topn in range(10, 30+1, 10):
-        keys = [tuple[0] for tuple in sorted_vocab[:topn]]
-        print("the keys set len is : {}".format(len(keys)))
-        print(keys)
-        one_hot_vocab = one_hot_Vocab(keys)
-        print("the one hot dict is: ")
-        print(one_hot_vocab)
-        with open(BasePath + "/data/one_hot_vocab_" + str(topn) + ".txt", 'wb') as f:
-            f.write(json.dumps(one_hot_vocab))
-
-        result_y = [list(set(result) & set(keys)) for result in data['result']]
-        return_y = list()
-        for line in result_y:
-            y_test = np.array([0] * len(keys))
-            one_hot = [one_hot_vocab[word] for word in line]
-            y_test[one_hot] = 1
-            return_y.append(y_test)
-        train_dev_y_file_path = BasePath + "/data/all_train_dev_data_y_topn" + str(topn) + ".txt"
-        np.savetxt(train_dev_y_file_path, np.array(return_y, dtype = np.int32))
-
-    train_dev_x_file_path = BasePath + "/data/all_train_dev_data_x.txt"
-    writejson2file({'x': return_x}, train_dev_x_file_path)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    # data_path = BasePath + "/data/" + "all_json_data.txt"
+    # vocab_path = BasePath + "/data/" + "all_vocab.txt"
+    # save_path = BasePath + "/data/" + "all_raw_split_json_data.txt"
+    #
+    # # 将json_data保存为原始数据，即保存为案例对应的所有法条
+    # data = save_data2rawdata(data_path, save_path)
+    #
+    # vocab = Vocab(vocab_path)
+    # print("the vocab is: ")
+    # print(vocab._word_to_id)
+    #
+    # sorted_vocab = sorted(vocab._word_to_id.items(), key = lambda e : e[1], reverse = True)
+    # print("the sorted vocab is : ")
+    # print(sorted_vocab)
+    # vocab_len = len(sorted_vocab)
+    # # print("the len of sorted vocabv is : {}".format(vocab_len))
+    # max_len = vocab_len/10*10
+    # return_x = [' '.join(sentence) for sentence in data['content']]
+    # for topn in range(10, 30+1, 10):
+    #     keys = [tuple[0] for tuple in sorted_vocab[:topn]]
+    #     print("the keys set len is : {}".format(len(keys)))
+    #     print(keys)
+    #     one_hot_vocab = one_hot_Vocab(keys)
+    #     print("the one hot dict is: ")
+    #     print(one_hot_vocab)
+    #     with open(BasePath + "/data/one_hot_vocab_" + str(topn) + ".txt", 'wb') as f:
+    #         f.write(json.dumps(one_hot_vocab))
+    #
+    #     result_y = [list(set(result) & set(keys)) for result in data['result']]
+    #     return_y = list()
+    #     for line in result_y:
+    #         y_test = np.array([0] * len(keys))
+    #         one_hot = [one_hot_vocab[word] for word in line]
+    #         y_test[one_hot] = 1
+    #         return_y.append(y_test)
+    #     train_dev_y_file_path = BasePath + "/data/all_train_dev_data_y_topn" + str(topn) + ".txt"
+    #     np.savetxt(train_dev_y_file_path, np.array(return_y, dtype = np.int32))
+    #
+    # train_dev_x_file_path = BasePath + "/data/all_train_dev_data_x.txt"
+    # writejson2file({'x': return_x}, train_dev_x_file_path)

@@ -2,10 +2,47 @@
 import json
 import sys
 import os
+import numpy as np
 from optOnMysql.DocumentsOnMysql import *
+
 reload(sys)
 sys.setdefaultencoding('utf8')
 BasePath = sys.path[0]
+
+
+def read_from_json(path):
+    with open(path, 'rb') as jd:
+        data = json.loads(jd.read())
+    return data
+
+
+def get_dev_train_data(x_path, y_path):
+    x_data = read_from_json(x_path)['x']
+    print("finished get x_data")
+    y_data = np.loadtxt(y_path)
+    print("finished get y_data")
+    # print(x_data)
+    # print(y_data)
+    return np.array(x_data), y_data
+
+def batch_iter(data, batch_size, num_epochs, shuffle=True):
+    """
+    Generates a batch iterator for a dataset.
+    """
+    data = np.array(data)
+    data_size = len(data)
+    num_batches_per_epoch = int(len(data)/batch_size) + 1
+    for epoch in range(num_epochs):
+        # Shuffle the data at each epoch
+        if shuffle:
+            shuffle_indices = np.random.permutation(np.arange(data_size))
+            shuffled_data = data[shuffle_indices]
+        else:
+            shuffled_data = data
+        for batch_num in range(num_batches_per_epoch):
+            start_index = batch_num * batch_size
+            end_index = min((batch_num + 1) * batch_size, data_size)
+            yield shuffled_data[start_index:end_index]
 
 
 
